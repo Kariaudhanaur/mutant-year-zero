@@ -72,4 +72,11 @@
         font-family: $font-primary;
         margin: 0 0 4px;
     }
+
+    .chat-stunts{
+        display: none;
+        &.expanded{
+            display: block;
+        }
+    }
 }

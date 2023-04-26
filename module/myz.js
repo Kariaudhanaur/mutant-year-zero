@@ -270,6 +270,7 @@ Hooks.once("ready", async function () {
     }
     // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
     //Hooks.on("hotbarDrop", (bar, data, slot) => createMYZMacro(data, slot));
+
 });
 
 /* SET CHARACTER TYPE */
@@ -441,3 +442,17 @@ function normalize(data, defaultValue) {
         return defaultValue;
     }
 }
+
+
+// CHAT STUNTS
+async function _onMYZDiceResult(ev, message, html, data){
+    let text = await TextEditor.enrichHTML('<p><strong>Stunts</strong>: For every extra&nbsp;<span style="font-family: myz;">A</span>&nbsp;you roll, choose one of these stunts:</p> <ul> <li>You inflict one more point of damage. You can choose this stunt multiple times, if you roll several&nbsp;<span style="font-family: myz;">A</span>.</li> <li>You subdue or tire your enemy. He suffers one point of fatigue (@UUID[JournalEntry.qlW4AKuIr7ruAAko.JournalEntryPage.EcNUTcVJoZrbs11V]{page 88}).</li> <li>You increase your initiative score by 2 (@UUID[JournalEntry.qlW4AKuIr7ruAAko.JournalEntryPage.tMfXjv0KeMXE9RMn]{page 80}), taking effect next turn.</li> <li>You knock or pull a weapon or other object from your opponent. You choose which. During a conflict, picking up a dropped object counts as a maneuver (@UUID[JournalEntry.qlW4AKuIr7ruAAko.JournalEntryPage.LgY1k9dQaWKFJXR8]{page 80}).</li> <li>Your opponent falls to the ground or is pushed back, for example through a doorway or over a cliff.</li> <li>You hold the opponent in a @UUID[JournalEntry.qlW4AKuIr7ruAAko.JournalEntryPage.BOvWoJtj4smlidiB#grappling]{grapple}. He needs to successfully Fight you to break free, and can&rsquo;t perform any other action (or any maneuver) until he has done so &ndash; or until you are broken or let him go.</li> </ul>', {async: true})
+    html.find(".chat-stunts").html(text)
+    html.find(".chat-stunts").toggleClass("expanded");
+}
+
+Hooks.on("renderChatMessage",(message, html, data)=>{
+    html.find('.stunts-link').click( async (event)=> {
+        await _onMYZDiceResult(event, message, html, data)
+    })    
+})

@@ -252,6 +252,14 @@ $font-secondary: 'Roboto', sans-serif;*/
   margin: 0 0 4px;
 }
 
+.myz.chat-item .chat-stunts {
+  display: none;
+}
+
+.myz.chat-item .chat-stunts.expanded {
+  display: block;
+}
+
 /* Styles limited to mutant-year-zero sheets */
 .mutant-year-zero {
   /* .tabs {
